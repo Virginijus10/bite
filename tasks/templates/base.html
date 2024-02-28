@@ -1,26 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-{% load static i18n %}
+<!DOCTYPE html>{% load static i18n %}{% get_current_language as LANGUAGE_CODE %}{% get_available_languages as LANGUAGES %}
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">   
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>{% block title %}BITES{% endblock title %}</title>
+    {% if search_form %}
+        {{ search_form.media.css }}
+    {% endif %}
+    <script src="{% static 'admin/js/vendor/select2/select2.full.min.js' %}"></script>   
+    {% if request.user.is_authenticated and form %}
+    <script src="{% static 'tinymce/tinymce.min.js' %}"></script>
+    {% endif %}
 </head>
 <body>
     <header>
-        <span class="logo">BITES</span>
-        <ul>
-            <li><a href="{% url 'index' %}">{% trans 'assignment'|capfirst %}</a></li>
-            <li><a href="{% url 'task_list' %}">tasks</a></li>
+        <ul class="nav">
+            <li><a href="{% url 'plan_list' %}">{% trans "plans"|capfirst %}</a></li>
+            <li><a href="{% url 'task_list' %}">{% trans "tasks"|capfirst %}</a></li>
         </ul>
+        <span class="spacer"></span>
+        <ul class="nav nav-user">
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'user_detail_current' %}">{{ user }}</a></li>
+                {% if user.is_superuser or user.is_staff %}
+                    <li><a href="{% url 'admin:index' %}">{% trans "admin"|capfirst %}</a></li>
+                {% endif %}
+                <li><form method="post" action="{% url "logout" %}">{% csrf_token %}<button type="submit">{% trans "log out"|capfirst %}</button></form></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">{% trans "log in"|capfirst %}</a></li>
+                <li><a href="{% url 'signup' %}">{% trans "sign up"|capfirst %}</a></li>
+            {% endif %}
+        </ul>
+        <form action="{% url 'set_language' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ redirect_to }}">
+            <select class="language" name="language" onchange="this.form.submit();">
+                {% for lang in LANGUAGES %}
+                    <option value="{{ lang.0 }}" {% if lang.0 == LANGUAGE_CODE %}selected{% endif %}>
+                        {{ lang.1 }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
     </header>
-    <section class="messages">
-       {% for message in messages %}
-           <p class="message message-{{ message.tags }}">{{ message }}</p>
-       {% endfor %}
-    </section>   
+    <div class="messages">
+        {% for message in messages %}
+            <p class="message message-{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+    </div>
     <main>{% block content %}{% endblock content %}</main>
     <footer>
         {% block footer %}{% endblock footer %}

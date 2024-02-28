@@ -1,0 +1,29 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{{ project.name }} | {{ block.super }}{% endblock title %}
+{% block content %}
+<h1>{{ plan.name }}</h1>
+{% if plan.owner == request.user or request.user.is_superuser %}
+    <p>
+        <a class="button" href="{% url "plan_update" plan.pk %}">{% trans "edit"|capfirst %}</a>
+        <a class="button" href="{% url "plan_delete" plan.pk %}">{% trans "delete"|capfirst %}</a>
+    </p>
+{% endif %}
+<p>{% trans "owner" %}: <a href="{% url "user_detail" plan.owner.username %}">{{ plan.owner }}</a></p>
+<p>{% trans "tasks" %}: {{ plan.tasks.count }}</p>
+<h2>{% trans "tasks"|capfirst %} ({{ plan.tasks.count }})</h2>
+<ul>
+    <li class="list-table-header">
+        <span>{% trans "name"|capfirst %}</span>
+        <span style="float:right;">{% trans "deadline"|capfirst %}</span>
+    </li>
+{% for task in plan.tasks.all %}
+<li><a href="{% url "task_done" task.pk %}">
+    {% if task.is_done %}&#x2611;{% else %}&#x2610;{% endif %}</a>
+    <a href="{% url "task_detail" task.pk %}">{{ task.name }}</a>
+    <span style="float:right;">{{ task.deadline }}</span>
+</li>
+{% empty %}
+    <li>{% trans "no tasks found"|capfirst %}</li>
+{% endfor %}
+</ul>
+{% endblock content %}

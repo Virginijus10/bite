@@ -37,6 +37,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'tasks',
+    'users',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -109,7 +110,11 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'lt'
+LANGUAGE_CODE = 'en-us'
+LANGUAGES = [
+    (LANGUAGE_CODE, 'US English'),
+    ('lt', 'Lietuvių'),
+]
 
 TIME_ZONE = 'UTC'
 
@@ -130,6 +135,7 @@ MEDIA_ROOT = BASE_DIR.joinpath(MEDIA_URL)
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+LOGIN_REDIRECT_URL = '/'
 
 try:
     from .local_settings import *

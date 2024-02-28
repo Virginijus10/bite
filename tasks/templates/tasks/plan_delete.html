@@ -1,0 +1,19 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{% trans "deleting"|capfirst %} {{ plan.name }} | {{ block.super }}{% endblock title %}
+{% block content %}
+<h1>{% trans "deleting plan"|capfirst %} {{ plan.name }}</h1>
+<form method="post" action="{{ request.path }}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p>
+        {% trans "are you sure you want to delete plan" %}
+        {{ plan.name }}? 
+        {% trans "all plan's"|capfirst %} {{ plan.tasks.count }}
+        {% trans "tasks will be deleted" %}.
+    </p>
+    <p>
+        <button type="submit">{% trans "confirm"|capfirst %}</button>
+        <a class="button" href="{% url "plan" project.pk %}">{% trans "change mind"|capfirst %}</a>
+    </p>
+</form>
+{% endblock content %}

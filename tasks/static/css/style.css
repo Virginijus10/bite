@@ -117,7 +117,7 @@ section.messages {
     margin: 0;
 }
 
-.message {
+.message, ul.errorlist {
     padding: 0.5rem;
     margin: 0;
     border-bottom: 1px solid #888888;
@@ -141,4 +141,119 @@ section.messages {
 
 .message-error {
     background-color: #ffaaaa;
+}
+
+.spacer {
+    flex-grow: 1;
+}
+header form select {
+    margin: 1rem;
+    font-size: 100%;
+}
+
+div.flower {
+    display: inline-block;
+    border: 2px solid #ffcc00;
+    border-radius: 1rem;
+    margin: 1rem;
+}
+
+div.fog {
+    background-color: #ffffff9f;
+    display: inline-block;
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+footer .icon {
+    max-height: 24px;
+}
+
+main form label {
+    display: inline-block;
+    width: 20vw;
+    min-width: 15rem;
+    font-size: 120%;
+    border-bottom: 1px dotted #999999;
+}
+
+main form input,
+main form textarea,
+main form select,
+main form button {
+    font-size: 120%;
+}
+
+main form .helptext {
+    display: block;
+    font-size: 90%;
+}
+
+button, .button {
+    background-color: #d8d8d8;
+    border: 1px solid #666666;
+    border-bottom: 2px solid #004488;
+    padding: 0.5rem;
+    font-size: 120%;
+    cursor: pointer;
+}
+
+button:hover, .button:hover {
+    background-color: #dfdfdf;
+    border-bottom: 2px solid #0055cc;
+}
+
+.toolbar {
+    margin: 0.5rem;
+}
+
+.toolbar form {
+    display: inline;
+}
+
+.toolbar form select, .toolbar form input {
+    padding: 0.4rem;
+}
+
+div.tube {
+    padding: 1rem;
+}
+
+ul.dashboard {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+    list-style: none;
+}
+
+ul.dashboard li {
+    display: inline-block;
+    border: 2px solid #999999;
+    border-radius: 1rem;
+}
+
+ul.dashboard li h3 {
+    border-radius: 1rem;
+    text-align: center;
+}
+
+ul.dashboard li .stat {
+    display: block;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 1rem;
+    padding: 0.5rem;
+    background-color: #ffffff9f;
+    border-radius: 5rem;
+    min-width: 7rem;
+}
+
+ul.dashboard li a:hover {
+    text-decoration: none;
+}
+
+ul.dashboard li a:hover h3 {
+    background-color: #aaaaaa7f;
 }

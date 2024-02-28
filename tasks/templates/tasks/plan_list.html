@@ -1,0 +1,26 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{{ block.super }} {% trans "plans" %}{% endblock title %}
+{% block content %}
+<h1>{% trans "plans"|capfirst %}</h1>
+<div class="toolbar">
+    <a class="button" href="{% url "plan_create" %}">{% trans "create new"|capfirst %}</a>
+    <form method="get" action="{{ request.path }}">
+        <select name="owner" onchange="this.form.submit();">
+            {% for user in user_list  %}
+                <option value="{{ user.username }}" {% if user.username == request.GET.owner %}selected{% endif %}>
+                    {{ user.first_name }} {{ user.last_name }}
+                    ({{ user.username }})
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+</div>
+<ul>
+{% for plan in plan_list %}
+    <li>
+        <a href="{% url "plan_detail" plan.pk %}">{{ plan.name }}</a>
+        ({{ plan.tasks.count }})
+    </li>
+{% endfor %}
+</ul>
+{% endblock content %}
