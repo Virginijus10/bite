@@ -1,0 +1,22 @@
+{% extends "base.html" %}{% load i18n %}
+{% block title %}{{ block.super }} {% trans "list" %}{% endblock title %}
+{% block content %}
+<h1>{% trans "tasks"|capfirst %}<span style="float:right;">{% trans "deadline"|capfirst %}</span></h1>
+<ul>
+    <li class="list-table-header"></li>
+        <span>{% trans "name"|capfirst %}</span>
+        <span style="float:right;">{% trans "deadline"|capfirst %}</span>
+    <li>
+    {% for task in task_list %}
+    <li>
+        <a href="{% url "task_done" task.pk %}">
+        {% if task.is_done %}&#x2611;{% else %}&#x2610;{% endif %}</a>
+        <a href="{% url "task_detail" task.pk %}">{{ task.name }}</a>
+        <span style="float:right;">{{ task.deadline }}</span>
+    </li>
+    {% empty %}
+    <li>No Tasks Found</li>
+    {% endfor %}
+</ul>
+{% endblock content %}
+

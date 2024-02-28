@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% load i18n %}
+{% block content %}
+    <h1>BITES</h1>
+    <p>{% trans "users"|capfirst %}: {{ users_count }}</p>
+    <p>{% trans "plans"|capfirst %}: {{ plans_count }}</p>
+    <p>{% trans "tasks"|capfirst %}: {{ tasks_count }}</p>
+{% endblock content %}

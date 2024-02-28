@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static i18n %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>{% block title %}BITES{% endblock title %}</title>
+</head>
+<body>
+    <header>
+        <span class="logo">BITES</span>
+        <ul>
+            <li><a href="{% url 'index' %}">{% trans 'assignment'|capfirst %}</a></li>
+            <li><a href="{% url 'task_list' %}">tasks</a></li>
+        </ul>
+    </header>
+    <section class="messages">
+       {% for message in messages %}
+           <p class="message message-{{ message.tags }}">{{ message }}</p>
+       {% endfor %}
+    </section>   
+    <main>{% block content %}{% endblock content %}</main>
+    <footer>
+        {% block footer %}{% endblock footer %}
+    <p>&copy; 2024 BITES 
+        <a style="float:right;" href="https://www.bitininkusajunga.lt/">bitininku sajunga</a>
+        <a style="float:right;" href="https://www.facebook.com/bitininkusajunga/" target="_blank"><img class="icon" src="{% static 'image/fb.png' %}"></a>
+    </p>
+    </footer>
+</body>
+</html>
