@@ -1,0 +1,22 @@
+{% extends 'bee_inventory/base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-11 col-md-4 mx-auto mt-5">
+            <h4>You Have Been Logged Out</h4>
+            <div class="border-top pt-3">
+                <small class="text-muted">
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <h3>ATE!</h3>
+                    </form>                    
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">Log In Again</button>
+                    </form>
+                </small>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
