@@ -16,6 +16,10 @@ class Index(TemplateView):
 	template_name = 'bee_inventory/index.html'
 
 
+class About_us(TemplateView):
+	template_name = 'bee_inventory/about_us.html'
+
+
 class Dashboard(LoginRequiredMixin, View):
 	def get(self, request):
 		items = InventoryItem.objects.filter(user=self.request.user.id).order_by('id')
@@ -37,6 +41,7 @@ class Dashboard(LoginRequiredMixin, View):
 		).values_list('id', flat=True)
 
 		return render(request, 'bee_inventory/dashboard.html', {'items': items, 'low_inventory_ids': low_inventory_ids})
+
 
 class SignUpView(View):
 	def get(self, request):

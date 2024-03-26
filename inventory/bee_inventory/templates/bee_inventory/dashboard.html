@@ -59,6 +59,8 @@
 							<td class="text-success">{{ item.quantity }}</td>
 						{% endif %}
 						<td>{{ item.category.name }}</td>
+						<td>{{ item.package }}</td>
+						<td>{{ item.price }}</td>
 						<td><a href="{% url 'edit-item' item.id %}" class="btn btn-outline-secondary">Edit</a></td>
 						<td><a href="{% url 'delete-item' item.id %}" class="btn btn-secondary">Delete</a></td>
 					</tr>
