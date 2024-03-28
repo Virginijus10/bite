@@ -109,7 +109,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Vilnius'
 
 USE_I18N = True
 
@@ -119,9 +119,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    os.path.join(BASE_DIR, 'bee_inventory/static')
 ]
 
 # Default primary key field type
@@ -136,3 +136,8 @@ LOGIN_REDIRECT_URL = '/dashboard'
 LOGIN_URL = 'login'
 
 LOW_QUANTITY = 20
+
+try:
+    from . import local_settings
+except:
+    print('warning: no local settings')

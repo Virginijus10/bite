@@ -61,9 +61,23 @@
 						{% endif %}
 						<td>{{ item.category.name }}</td>
 						<td>{{ item.package }}</td>
-						<td>{{ item.price }}</td>
-						<td><a href="{% url 'edit-item' item.id %}" class="btn btn-outline-secondary">Edit</a></td>
-						<td><a href="{% url 'delete-item' item.id %}" class="btn btn-secondary">Delete</a></td>
+						<!-- Keičiame kainos išvedimą: -->
+						<td>{{ item.price }}</td> <!-- Pakeičiame į: -->
+						{% if request.user.is_staff %} <!-- Tikriname, ar vartotojas yra personalo darbuotojas -->
+							<td>{{ item.price }}</td> <!-- Jei taip, rodom kainą -->
+						{% else %}
+							<td>-</td> <!-- Jei ne, rodom kainą nebuvimą -->
+						{% endif %}
+
+						<!-- Apriboti redagavimą: -->
+						<td><a href="{% url 'edit-item' item.id %}" class="btn btn-outline-secondary">Edit</a></td> <!-- Pakeičiame į: -->
+						{% if request.user.is_staff %} <!-- Tikriname, ar vartotojas yra personalo darbuotojas -->
+						<td><a href="{% url 'delete-item' item.id %}" class="btn btn-secondary">Delete</a></td> <!-- Jei taip, rodom redagavimo nuorodą -->
+						{% else %}
+							<td>-</td> <!-- Jei ne, nerodome redagavimo nuorodos -->
+						{% endif %}
+
+						
 					</tr>
 					{% endfor %}
 				</tbody>
