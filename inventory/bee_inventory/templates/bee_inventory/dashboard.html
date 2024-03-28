@@ -112,18 +112,27 @@
 									<input type="checkbox" class="form-check-input" id="sort_toggle" name="sort_toggle">
 									<label class="form-check-label" for="sort_toggle">Sort</label>
 								</div>
-								<button type="submit" class="btn btn-primary">Filter</button>
-								<!-- Mygtukas "Analitical data" -->
-									{% if request.user.is_staff %}
-									<button type="button" class="btn btn-primary mt-2" id="show_analytical_data">Analytical Data</button>
-									<div id="analytical_data" style="display: none;">
-										<!-- Čia bus rodomi vidurkis, mediana ir moda -->
-										<p>Average Price: ${{ average_price }}</p>
-										<p>Median Price: ${{ median_price }}</p>
-										<p>Mode Price: ${{ mode_price }}</p>
+								<div class="row">
+									<div class="col-md-6"> <!-- Filter -->
+										<form method="GET" action="{% url 'filter-items' %}" class="form-inline mb-3">
+											<!-- Filter form elements... -->
+											<button type="submit" class="btn btn-primary">Filter</button>
+										</form>
 									</div>
-									{% endif %}
-							</form>
+									<div class="col-md-6 text-md-end"> <!-- Analytical Data -->
+										{% if request.user.is_staff %}
+										<button type="button" class="btn btn-primary mt-3" id="show_analytical_data">Analytical Data</button>
+										<div id="analytical_data" style="display: none;">
+											<!-- Čia bus rodomi vidurkis, mediana ir moda -->
+											<p>Average Price: ${{ average_price }}</p>
+											<p>Median Price: ${{ median_price }}</p>
+											<p>Mode Price: ${{ mode_price }}</p>
+										</div>
+										{% endif %}
+									</div>
+								</div>
+								
+							</form>							
 							<script>
 								// Rodyti arba paslėpti analitinių duomenų bloką
 								document.getElementById('show_analytical_data').addEventListener('click', function() {
@@ -134,7 +143,7 @@
 										analyticalData.style.display = 'none';
 									}
 								});
-							</script>	
+							</script>
 						</div>
 					</div>			
 				</tbody>
