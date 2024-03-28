@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, View, CreateView, UpdateView, DeleteView
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from .forms import UserRegisterForm, InventoryItemForm
 from .models import InventoryItem, Category
 from inventory.settings import LOW_QUANTITY
@@ -21,26 +22,21 @@ class About_us(TemplateView):
 
 
 class Dashboard(LoginRequiredMixin, View):
-	def get(self, request):
-		items = InventoryItem.objects.filter(user=self.request.user.id).order_by('id')
+    def get(self, request):
+        # Gauti visus inventoriaus elementus
+        items = InventoryItem.objects.all().order_by('id')
 
-		low_inventory = InventoryItem.objects.filter(
-			user=self.request.user.id,
-			quantity__lte=LOW_QUANTITY
-		)
+        # Gauti inventoriaus elementus, kurių kiekis yra mažesnis arba lygus nustatytam mažiausiam kiekiui
+        low_inventory = InventoryItem.objects.filter(
+            quantity__lte=LOW_QUANTITY
+        )
 
-		if low_inventory.count() > 0:
-			if low_inventory.count() > 1:
-				messages.error(request, f'{low_inventory.count()} items have low inventory')
-			else:
-				messages.error(request, f'{low_inventory.count()} item has low inventory')
+        if low_inventory.exists():
+            messages.error(request, f'Yra prekių, kurių kiekis yra mažesnis nei nustatyta riba')
 
-		low_inventory_ids = InventoryItem.objects.filter(
-			user=self.request.user.id,
-			quantity__lte=LOW_QUANTITY
-		).values_list('id', flat=True)
+        low_inventory_ids = low_inventory.values_list('id', flat=True)
 
-		return render(request, 'bee_inventory/dashboard.html', {'items': items, 'low_inventory_ids': low_inventory_ids})
+        return render(request, 'bee_inventory/dashboard.html', {'items': items, 'low_inventory_ids': low_inventory_ids})
 
 
 class SignUpView(View):
