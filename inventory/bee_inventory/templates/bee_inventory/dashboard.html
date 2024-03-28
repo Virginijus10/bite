@@ -41,7 +41,7 @@
 						<th scope="col">Package</th>
 						<th scope="col">Price</th>
 						<th scope="col"></th>
-						<th scope="col"></th>					
+						<th scope="col"></th>			
 					</tr><td>-</td>
 				</thead>
 				<tbody>
@@ -65,11 +65,15 @@
 						{% else %}
 							<td class="text-success"></td>	
 						{% endif %}	
-						<td>{{ item.name }}</td>
+						<td>{{ item.name }}</td>						
 						{% if item.quantity > 0 %}
-							<td class="text-success">In Stock</td>
+							{% if request.user.is_staff %} 
+								<td class="text-success">{{ item.quantity }}</td>
+							{% else %}	
+								<td class="text-success">In Stock</td>
+							{% endif %}	
 						{% else %}
-							<td class="text-danger">Out of Stock</td>
+								<td class="text-danger">Out of Stock</td>
 						{% endif %}
 						<td>{{ item.category.name }}</td>
 						<td>{{ item.package }}</td>
@@ -83,6 +87,56 @@
 						{% endif %}
 					</tr>
 					{% endfor %}
+					<div class="row mt-3">
+						<div class="col-md-10 col-12 mx-auto">				
+							<form method="GET" action="{% url 'filter-items' %}" class="form-inline mb-3">
+								<div class="form-group mr-2">
+									<label for="filter_by" class="mr-2">Filter By:</label>
+									<select name="filter_by" id="filter_by" class="form-control">
+										<option value="name">All</option>
+										<option value="name">Name</option>
+										<option value="category">Category</option>
+										<!-- <option value="package">Package</option> 
+										<option value="price">Price</option> -->
+									</select>
+								</div>
+								<div class="form-group mr-2">
+									<label for="search" class="mr-2">Search:</label>
+									<input type="text" name="search" id="search" class="form-control">
+								</div>
+								<div class="form-group mr-2" id="search_number_div" style="display: none;">
+									<label for="search_number" class="mr-2">Search Number:</label>
+									<input type="number" name="search_number" id="search_number" class="form-control">
+								</div>
+								<div class="form-check form-check-inline">
+									<input type="checkbox" class="form-check-input" id="sort_toggle" name="sort_toggle">
+									<label class="form-check-label" for="sort_toggle">Sort</label>
+								</div>
+								<button type="submit" class="btn btn-primary">Filter</button>
+								<!-- Mygtukas "Analitical data" -->
+									{% if request.user.is_staff %}
+									<button type="button" class="btn btn-primary mt-2" id="show_analytical_data">Analytical Data</button>
+									<div id="analytical_data" style="display: none;">
+										<!-- Čia bus rodomi vidurkis, mediana ir moda -->
+										<p>Average Price: ${{ average_price }}</p>
+										<p>Median Price: ${{ median_price }}</p>
+										<p>Mode Price: ${{ mode_price }}</p>
+									</div>
+									{% endif %}
+							</form>
+							<script>
+								// Rodyti arba paslėpti analitinių duomenų bloką
+								document.getElementById('show_analytical_data').addEventListener('click', function() {
+									var analyticalData = document.getElementById('analytical_data');
+									if (analyticalData.style.display === 'none') {
+										analyticalData.style.display = 'block';
+									} else {
+										analyticalData.style.display = 'none';
+									}
+								});
+							</script>	
+						</div>
+					</div>			
 				</tbody>
 			</table>
 		</div>
